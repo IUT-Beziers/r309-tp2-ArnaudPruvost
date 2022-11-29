@@ -1,6 +1,8 @@
+from tkinter import Tk, Canvas
 from tkinter import *
 from tkinter import ttk
 from PIL import Image
+import tkinter as tk
 
 root = Tk()
 root.title("ma page")
@@ -26,6 +28,23 @@ def clique(pos):
 		dessin.tag_bind(image, "<Button-3>", lambda event: dessin.delete(image))
 		placer = True
 
+
+
+
+old=[None, None]
+
+def clic(event):
+    old[0]=event.x
+    old[1]=event.y
+
+def glisser(event):
+    dessin.move(img1, event.x-old[0], event.y-old[1])
+    old[0]=event.x
+    old[1]=event.y
+
+
+
+
 but1=ttk.Button(root, width = 10, text="Ordinateur",command=lambda: choix(1))
 but1.place(x=10,y=10)
 but2=ttk.Button(root, width = 10, text="Switch",command=lambda: choix(2))
@@ -39,10 +58,14 @@ lg, ht = 600,540
 dessin=Canvas(root,bg="ivory",width=lg,height=ht)
 dessin.pack(side='bottom', padx=20, pady=40)
 
+
+
 img1 = PhotoImage(file = 'ordinateur.png')
 img2 = PhotoImage(file = 'switch.png')
 img3 = PhotoImage(file = 'router.png')
 
+root.bind("<B1-Motion>",glisser)
+root.bind("<Button-1>",clic)
 
 root.bind('<Button 1>',clique)
 
